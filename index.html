@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IceBars</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: #000;
+        color: #fff;
+        scroll-behavior: smooth;
+    }
+
+    /* THIS IS tHE NAVIGATION BAR */
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        z-index: 1000;
+    }
+
+    nav .logo {
+        font-size: 24px;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    nav .menu {
+        display: flex;
+        gap: 15px;
+    }
+
+    nav .menu a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+    }
+
+    nav .menu a:hover {
+        color: #007bff;
+    }
+
+    nav .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    nav .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: #fff;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        z-index: 999;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu-overlay a {
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        margin: 10px 0;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .menu-overlay a:hover {
+        color: #007bff;
+    }
+
+    .menu-overlay.active {
+        display: flex;
+    }
+
+    /* THE pINK ICE CREAM OR HERO SECTION */
+    .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 200px;
+        gap: 20px;
+    }
+
+    .hero .hero-text {
+        max-width: 45%;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .hero a {
+        padding: 10px 30px;
+        background: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .hero a:hover {
+        background: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .hero img {
+        max-width: 30%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    /* STYING THE SECTIONn */
+    section {
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    section h2 {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    section p {
+        font-size: 16px;
+        color: #ccc;
+        line-height: 1.6;
+    }
+
+    .swiper-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 20px auto;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .swiper-slide img {
+        width: 100px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .order-now button {
+        padding: 10px 30px;
+        background: #007bff;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .order-now button:hover {
+        background: #0056b3;
+        transform: scale(1.05);
+    }
+
+    /* REsSPONSIVE DESIGNSS */
+    /* LARGWER SCREENS */
+    nav .menu {
+        display: flex;
+    }
+
+    nav .hamburger {
+        display: none;
+    }
+
+    /* PHONE PORTRAIT ADN LANDSCAPE!! */
+    @media screen and (max-width: 767px) {
+        nav .menu {
+            display: none; /* Hide the menu */
+        }
+
+        nav .hamburger {
+            display: flex; /* Show hamburger menu */
+        }
+
+        .hero {
+            flex-direction: column;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        .hero .hero-text {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .hero img {
+            max-width: 70%; /* Shrink the hero image */
+        }
+
+        section h2 {
+            font-size: 24px;
+        }
+
+        section p {
+            font-size: 14px;
+        }
+
+        .swiper-slide img {
+            width: 80px;
+            height: 120px;
+        }
+    }
+
+    /* FOR TABLET */
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        .hero {
+            padding: 0 40px;
+        }
+
+        .hero img {
+            max-width: 50%; /* Adjust image size for tablets */
+        }
+
+        .hero h1 {
+            font-size: 40px;
+        }
+
+        .swiper-slide img {
+            width: 100px;
+            height: 150px;
+        }
+    }
+
+    /*TABLET LANSDCAPE */
+    @media screen and (min-width: 1024px) and (max-width: 1199px) {
+        .hero {
+            padding: 0 100px;
+        }
+
+        .hero img {
+            max-width: 45%;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+        }
+
+        .swiper-slide img {
+            width: 110px;
+            height: 160px;
+        }
+    }
+
+    /* PC */
+    @media screen and (min-width: 1200px) {
+        .hero {
+            padding: 0 200px;
+        }
+
+        .hero img {
+            max-width: 25%; /* Smaller hero image for PC */
+        }
+
+        .swiper-slide img {
+            width: 120px;
+            height: 180px;
+        }
+    }
+</style>
+
+
+</head>
+<body>
+    <!-- THE NAVIGATIONN!!-->
+    <nav>
+        <a href="#" class="logo">IceBars</a>
+        <div class="menu">
+            <a href="order.html">Flavors & Prices</a>
+            <a href="signin.html">Logout</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <!-- INSIDE NAVIGATION -->
+    <div class="menu-overlay" id="menuOverlay">
+        <a href="order.html">Flavors & Prices</a>
+        <a href="signin.html">Logout</a>
+    </div>
+
+    <!-- HEROO!! -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Welcome to IceBars</h1>
+            <p>Exceptional handcrafted ice cream that melts in your mouth. Explore our flavors and find your favorite treat.</p>
+            <a href="#flavors">Explore Flavors</a>
+        </div>
+        <img src="ice-cream-image.png" alt="Ice Cream">
+    </section>
+
+    <!-- THE FALVORSS -->
+    <section id="flavors">
+        <h2>Our Best-Selling Flavors</h2>
+        <p>Take a look at our delicious range of ice cream flavors.</p>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="strawberry-ice-cream.jpg" alt="Strawberry Ice Cream">
+                    <h3>Strawberry Ice Cream</h3>
+                </div>
+                <div class="swiper-slide">
+                    <img src="vanilla-chocolate-mix.jpg" alt="Vanilla & Chocolate">
+                    <h3>Vanilla & Chocolate</h3>
+                </div>
+                <div class="swiper-slide">
+                    <img src="vanilla-ice-cream.jpg" alt="Vanilla Ice Cream">
+                    <h3>Vanilla Ice Cream</h3>
+                </div>
+                <div class="swiper-slide">
+                    <img src="chocolate-ice-cream.jpg" alt="Chocolate Ice Cream">
+                    <h3>Chocolate Ice Cream</h3>
+                </div>
+                <div class="swiper-slide">
+                    <img src="cookies-cream-ice-cream.jpg" alt="Cookies & Cream">
+                    <h3>Cookies & Cream</h3>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- ORDER BUTTONN -->
+        <div class="order-now">
+            <button onclick="window.location.href='order.html'">Order Now</button>
+        </div>
+    </section>
+
+    <!-- JAVA FOR SWIPE -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // Swiper code
+        new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: false,
+            grabCursor: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            slidesPerView: 4,
+            spaceBetween: 5,
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+                480: {
+                    slidesPerView: 1,
+                },
+            },
+        });
+
+        // to toggle nav
+        function toggleMenu() {
+            const menuOverlay = document.getElementById('menuOverlay');
+            menuOverlay.classList.toggle('active');
+        }
+
+        // smmooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // animaton for scrol
+        const sections = document.querySelectorAll("section");
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>

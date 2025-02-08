@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .signin-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 330px;
+        }
+
+        .signin-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .signin-container input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .signin-container button {
+            background-color: #0f155a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .signin-container button:hover {
+            background-color: #161b8d;
+        }
+
+        .signin-container .back-to-login {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .signin-container .back-to-login a {
+            color: #0f155a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signin-container .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function registerUser(event) {
+            event.preventDefault();
+
+            let email = document.getElementById("email").value;
+            let address = document.getElementById("address").value;
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (!localStorage.getItem(username)) {
+                // SO THAT IT WILL SAVEE
+                localStorage.setItem(username, password);
+
+                // MORE SAVE
+                localStorage.setItem("lastSignedUpUsername", username);
+                localStorage.setItem("lastSignedUpPassword", password);
+                localStorage.setItem("lastSignedUpEmail", email);
+                localStorage.setItem("lastSignedUpAddress", address);
+
+                document.getElementById("success-message").textContent = "Account created successfully!";
+                document.getElementById("error-message").textContent = "";
+
+                
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+            } else {
+                document.getElementById("success-message").textContent = "";
+                document.getElementById("error-message").textContent = "Username already exists.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="signin-container">
+        <h2>Sign In</h2>
+        <form onsubmit="registerUser(event)">
+            <input type="email" id="email" placeholder="Email" required><br>
+            <input type="text" id="address" placeholder="Address" required><br>
+            <input type="text" id="username" placeholder="Username" required><br>
+            <input type="password" id="password" placeholder="Password" required><br>
+            <button type="submit">Sign In</button>
+            <div class="back-to-login">
+                Back to <a href="login.html">Login</a>
+            </div>
+            <div id="success-message" class="success-message"></div>
+            <div id="error-message" class="error-message"></div>
+        </form>
+    </div>
+</body>
+</html>

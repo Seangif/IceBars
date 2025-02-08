@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IceBars</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            scroll-behavior: smooth;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        nav a, nav button {
+            color: #fff;
+            font-weight: 600;
+            margin: 0 15px;
+            text-decoration: none;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav button:hover {
+            color: #007bff;
+        }
+
+        .header {
+            text-align: center;
+            margin: 100px 0 20px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .swiper-container {
+            width: 90%;
+            height: 420px;
+            margin: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .swiper-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .swiper-slide img {
+            width: calc(33.33% - 10px);
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .description {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            font-size: 18px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .about {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .about h2 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 20px;
+            color: #ccc;
+            max-width: 800px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .popup.active {
+            display: flex;
+        }
+
+        .popup-content {
+            background: #fff;
+            color: #000;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .popup img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .popup select,
+        .popup input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        /* Confirmation Popup */
+        .confirmation-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007bff;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 10001;
+            animation: fadeInOut 3s ease;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            10%, 90% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION!! -->
+    <nav>
+        <a href="index.html">IceBars</a>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="signin.html">Logout</a>
+        </div>
+    </nav>
+
+    <!-- HEADERRR -->
+    <div class="header">
+        <h1>Our Flavors</h1>
+    </div>
+
+    <!-- FLAVORS SLIDEING -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="strawberry-ice-cream.jpg" alt="Strawberry" onclick="showPopup('strawberry-ice-cream.jpg', 'Strawberry Ice Cream', 35)">
+                <img src="vanilla-ice-cream.jpg" alt="Vanilla" onclick="showPopup('vanilla-ice-cream.jpg', 'Vanilla Ice Cream', 30)">
+                <img src="chocolate-ice-cream.jpg" alt="Chocolate" onclick="showPopup('chocolate-ice-cream.jpg', 'Chocolate Ice Cream', 25)">
+            </div>
+            <div class="swiper-slide">
+                <img src="cookies-cream-ice-cream.jpg" alt="Cookies & Cream" onclick="showPopup('cookies-cream-ice-cream.jpg', 'Cookies & Cream', 35)">
+                <img src="vanilla-chocolate-mix.jpg" alt="Vanilla & Chocolate" onclick="showPopup('vanilla-chocolate-mix.jpg', 'Vanilla & Chocolate', 25)">
+                <img src="strawberry-ice-cream.jpg" alt="Strawberry" onclick="showPopup('strawberry-ice-cream.jpg', 'Strawberry Ice Cream', 35)">
+            </div>
+        </div>
+    </div>
+
+    <!-- DESCRIPTION FOR FLAVORS -->
+    <section class="description">
+        <p>
+            Discover our delicious handcrafted ice creams made with love and care. From timeless classics like Vanilla 
+            to unique combinations like Cookies & Cream, IceBars has something to satisfy every craving.
+        </p>
+    </section>
+
+    <!-- ABOUT USS! -->
+    <section class="about" id="about">
+        <h1>About Us</h1>
+        <p>
+            Welcome to IceBars! We are a group of students who are challenged to make this website! We are very happy that you are visiting this website. Therefore let's introduce our members: Vios, Cortes, Agullana, Acebedo, Marimon, Acharon.
+            Thank you for visiting our website!
+        </p>
+    </section>
+
+    <!-- THW POPUP FOR FLAVORS -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <button class="close-btn" onclick="closePopup()"></button>
+            <img id="popup-img" src="" alt="Ice Cream">
+            <h3 id="popup-name"></h3>
+            <span id="popup-price"></span>
+            <select id="size" onchange="updatePrice()">
+                <option value="0">Small</option>
+                <option value="5">Medium</option>
+                <option value="10">Large</option>
+            </select>
+            <select id="toppings" onchange="updatePrice()">
+                <option value="0">With Toppings</option>
+                <option value="-5">No Toppings</option>
+            </select>
+            <input type="text" id="location" placeholder="Enter your location">
+            <button onclick="placeOrder()">Order Now</button>
+        </div>
+    </div>
+
+    <!-- THANK YOU MSESAGE! -->
+    <div class="confirmation-popup" id="confirmation-popup">
+        Your Ice Cream will arrive soon. Thank you for your purchase!
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        const popup = document.getElementById('popup');
+        const confirmationPopup = document.getElementById('confirmation-popup');
+        let basePrice = 0;
+
+        function showPopup(img, name, price) {
+            document.getElementById('popup-img').src = img;
+            document.getElementById('popup-name').textContent = name;
+            basePrice = price;
+            updatePrice();
+            popup.classList.add('active');
+        }
+
+        function updatePrice() {
+            const sizePrice = parseInt(document.getElementById('size').value);
+            const toppingsPrice = parseInt(document.getElementById('toppings').value);
+            const finalPrice = basePrice + sizePrice + toppingsPrice;
+            document.getElementById('popup-price').textContent = `₱${finalPrice}`;
+        }
+
+        function closePopup() {
+            popup.classList.remove('active');
+        }
+
+        function placeOrder() {
+            closePopup();
+            confirmationPopup.style.display = 'block';
+            setTimeout(() => {
+                confirmationPopup.style.display = 'none';
+            }, 3000); 
+        }
+
+        function logout() {
+            alert("You have logged out!");
+        }
+
+        new Swiper('.swiper-container', {
+            direction: 'vertical',
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+        });
+    </script>
+</body>
+</html>
